@@ -1,0 +1,8 @@
+CREATE TABLE clientes(
+
+    id BIGINT NOT NULL,
+    nome VARCHAR(128) NOT NULL,
+    email VARCHAR(128) NOT NULL UNIQUE,
+    telefone VARCHAR(32) NOT NULL
+
+);

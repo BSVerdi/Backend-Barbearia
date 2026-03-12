@@ -1,4 +1,4 @@
-package br.com.alvorada.barbearia.dto;
+package br.com.alvorada.barbearia.dto.autenticacao;
 
 import jakarta.validation.constraints.NotBlank;
 

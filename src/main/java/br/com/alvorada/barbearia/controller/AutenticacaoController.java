@@ -1,8 +1,8 @@
 package br.com.alvorada.barbearia.controller;
 
-import br.com.alvorada.barbearia.dto.LoginDto;
-import br.com.alvorada.barbearia.dto.RefreshTokenDto;
-import br.com.alvorada.barbearia.dto.TokenDto;
+import br.com.alvorada.barbearia.dto.autenticacao.LoginDto;
+import br.com.alvorada.barbearia.dto.autenticacao.RefreshTokenDto;
+import br.com.alvorada.barbearia.dto.autenticacao.TokenDto;
 import br.com.alvorada.barbearia.model.Usuario;
 import br.com.alvorada.barbearia.repository.UsuarioRepository;
 import br.com.alvorada.barbearia.security.service.TokenService;

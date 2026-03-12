@@ -1,4 +1,4 @@
-package br.com.alvorada.barbearia.dto;
+package br.com.alvorada.barbearia.dto.usuario;
 
 import br.com.alvorada.barbearia.model.Usuario;
 

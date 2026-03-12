@@ -1,19 +1,17 @@
 package br.com.alvorada.barbearia.model;
 
-import br.com.alvorada.barbearia.dto.CadastroUsuarioDto;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.Collections;
 
 @Entity
 @Table(name = "usuarios")
@@ -32,30 +30,20 @@ public class Usuario implements UserDetails {
 
   private Boolean ativo;
 
-  @ManyToMany(fetch = FetchType.EAGER)
-  @OnDelete(action = OnDeleteAction.CASCADE)
-  @JoinTable(
-          name = "usuarios_perfis",
-          joinColumns = @JoinColumn(name = "usuario_id"),
-          inverseJoinColumns = @JoinColumn(name = "perfil_id")
-  )
-  private List<Perfil> perfis = new ArrayList<>();
+  @Enumerated(EnumType.STRING)
+  private Perfil perfil;
 
-  public Usuario(CadastroUsuarioDto dto, String senhaCriptografada, Perfil perfil) {
-
-    this.nome = dto.nome();
-    this.email = dto.email();
+  public Usuario(String nome, String email, String senhaCriptografada, Perfil perfil) {
+    this.nome = nome;
+    this.email = email;
     this.senha = senhaCriptografada;
-
+    this.perfil = perfil;
     this.ativo = true;
-
-    this.perfis.add(perfil);
-
   }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return perfis;
+    return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + perfil.name()));
   }
 
   @Override
@@ -68,4 +56,17 @@ public class Usuario implements UserDetails {
     return email;
   }
 
+  public void atualizarPerfil(@NotBlank Perfil perfil) {
+    this.perfil = perfil;
+  }
+
+  public void desativar() {
+    this.ativo = false;
+  }
+
+  public void atualizarNome(String nome) {
+    if (nome != null) {
+      this.nome = nome;
+    }
+  }
 }

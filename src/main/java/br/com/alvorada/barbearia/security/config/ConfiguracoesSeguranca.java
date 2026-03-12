@@ -31,9 +31,11 @@ public class ConfiguracoesSeguranca {
   public SecurityFilterChain filterChain(HttpSecurity http) {
     return http
             .authorizeHttpRequests(req -> {
-                      req.requestMatchers("/login/**", "/registrar", "/atualizar-token").permitAll();
+                      req.requestMatchers("/login/**", "/clientes/cadastrar", "/atualizar-token").permitAll();
 
-                      req.requestMatchers(HttpMethod.GET, "/usuarios/**").hasRole("ADMIN");
+                      req.requestMatchers(HttpMethod.GET, "/usuarios/**", "/clientes").hasRole("ADMIN");
+                      req.requestMatchers(HttpMethod.PATCH, "/usuarios/perfil/**").hasRole("ADMIN");
+                      req.requestMatchers(HttpMethod.DELETE, "/clientes/{id}").hasRole("ADMIN");
 
                       req.anyRequest().authenticated();
                     }

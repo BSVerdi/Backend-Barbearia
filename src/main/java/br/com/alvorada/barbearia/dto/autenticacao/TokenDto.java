@@ -1,4 +1,4 @@
-package br.com.alvorada.barbearia.dto;
+package br.com.alvorada.barbearia.dto.autenticacao;
 
 public record TokenDto(
         String tokenAcesso,
