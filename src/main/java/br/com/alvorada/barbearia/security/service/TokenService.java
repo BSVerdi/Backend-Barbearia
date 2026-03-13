@@ -70,4 +70,5 @@ public class TokenService {
   private Instant expiracao(Integer minutos) {
     return LocalDateTime.now().plusMinutes(minutos).toInstant(ZoneOffset.of("-03:00"));
   }
+
 }

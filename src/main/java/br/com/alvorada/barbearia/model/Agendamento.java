@@ -37,6 +37,10 @@ public class Agendamento {
     this.status = StatusAgendamento.ATIVO;
   }
 
+  public boolean estaAtivo() {
+    return this.status == StatusAgendamento.ATIVO;
+  }
+
   public void cancelarAgendamento() {
     this.status = StatusAgendamento.CANCELADO;
   }

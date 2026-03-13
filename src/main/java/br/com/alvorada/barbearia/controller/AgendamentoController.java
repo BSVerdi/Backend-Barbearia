@@ -75,4 +75,31 @@ public class AgendamentoController {
     return ResponseEntity.ok(agendamento);
   }
 
+  @PatchMapping("/concluir/{id}")
+  public ResponseEntity<DetalhamentoAgendamentoDto> concluirAgendamento(
+          @PathVariable Long id,
+          @AuthenticationPrincipal Usuario logado
+  ) {
+    var agendamento = service.concluirAgendamento(id, logado);
+
+    return ResponseEntity.ok(agendamento);
+  }
+
+  @PatchMapping("/cancelar/{id}")
+  public ResponseEntity<DetalhamentoAgendamentoDto> cancelarAgendamento(
+          @PathVariable Long id,
+          @AuthenticationPrincipal Usuario logado
+  ) {
+    var agendamento = service.cancelarAgendamento(id, logado);
+
+    return ResponseEntity.ok(agendamento);
+  }
+
+  @DeleteMapping("/deletar/{id}")
+  public ResponseEntity<Void> excluirAgendamento(@PathVariable Long id) {
+    service.deletarAgendamento(id);
+
+    return ResponseEntity.noContent().build();
+  }
+
 }

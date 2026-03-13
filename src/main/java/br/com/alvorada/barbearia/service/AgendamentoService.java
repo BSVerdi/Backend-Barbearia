@@ -3,6 +3,7 @@ package br.com.alvorada.barbearia.service;
 import br.com.alvorada.barbearia.dto.agendamento.AgendamentoDto;
 import br.com.alvorada.barbearia.dto.agendamento.AgendarDto;
 import br.com.alvorada.barbearia.dto.agendamento.DetalhamentoAgendamentoDto;
+import br.com.alvorada.barbearia.exception.RegraDeNegocioException;
 import br.com.alvorada.barbearia.model.Agendamento;
 import br.com.alvorada.barbearia.model.Usuario;
 import br.com.alvorada.barbearia.repository.AgendamentoRepository;
@@ -96,6 +97,44 @@ public class AgendamentoService {
       throw new AccessDeniedException("Usuário sem permissão.");
 
     return new DetalhamentoAgendamentoDto(agendamento);
+  }
+
+  @Transactional
+  public DetalhamentoAgendamentoDto concluirAgendamento(Long id, Usuario logado) {
+    var agendamento = repository.findById(id).orElseThrow();
+
+    if (!(logado.ehDono(agendamento.getBarbeiro().getId()) || logado.ehAdmin()))
+      throw new AccessDeniedException("Usuário sem permissão");
+
+    if (!agendamento.estaAtivo())
+      throw new RegraDeNegocioException("O agendamento não está ativo");
+
+    agendamento.concluirAgendamento();
+
+    return new DetalhamentoAgendamentoDto(agendamento);
+  }
+
+  @Transactional
+  public DetalhamentoAgendamentoDto cancelarAgendamento(Long id, Usuario logado) {
+    var agendamento = repository.findById(id).orElseThrow();
+
+    var barbeiroId = agendamento.getBarbeiro().getId();
+    var clienteId = agendamento.getCliente().getId();
+
+    if (!(logado.ehDono(barbeiroId) || logado.ehDono(clienteId) || logado.ehAdmin()))
+      throw new AccessDeniedException("Usuário sem permissão");
+
+    if (!agendamento.estaAtivo())
+      throw new RegraDeNegocioException("O agendamento não está ativo");
+
+    agendamento.cancelarAgendamento();
+
+    return new DetalhamentoAgendamentoDto(agendamento);
+  }
+
+  @Transactional
+  public void deletarAgendamento(Long id) {
+    repository.deleteById(id);
   }
 
 }

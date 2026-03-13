@@ -38,6 +38,7 @@ public class ConfiguracoesSeguranca {
                       req.requestMatchers("/barbeiros/**").hasRole("ADMIN");
                       req.requestMatchers(HttpMethod.GET, "/usuarios/**", "/clientes", "/agendamentos").hasRole("ADMIN");
                       req.requestMatchers(HttpMethod.PATCH, "/usuarios/perfil/**", "/clientes/{id}/reativar").hasRole("ADMIN");
+                      req.requestMatchers(HttpMethod.DELETE, "/agendamentos/deletar/**").hasRole("ADMIN");
 
 
                       req.anyRequest().authenticated();

@@ -1,9 +1,6 @@
 package br.com.alvorada.barbearia.controller;
 
-import br.com.alvorada.barbearia.dto.barbeiro.AtualizacaoDadosBarbeiroDto;
-import br.com.alvorada.barbearia.dto.barbeiro.BarbeiroDto;
-import br.com.alvorada.barbearia.dto.barbeiro.CadastroBarbeiroDto;
-import br.com.alvorada.barbearia.dto.barbeiro.DetalhamentoBarbeiroDto;
+import br.com.alvorada.barbearia.dto.barbeiro.*;
 import br.com.alvorada.barbearia.model.Usuario;
 import br.com.alvorada.barbearia.service.BarbeiroService;
 import jakarta.validation.Valid;
@@ -45,6 +42,16 @@ public class BarbeiroController {
     var barbeiro = service.detalharBarbeiro(id);
 
     return ResponseEntity.ok(barbeiro);
+  }
+
+  @GetMapping("/listar-horarios-disponiveis/{id}/{data}")
+  public ResponseEntity<List<HorarioDto>> listarHorariosDisponiveis(
+          @PathVariable Long id,
+          @PathVariable String data
+  ) {
+    var horariosDisponiveis = service.listarHorariosDisponiveis(id, data);
+
+    return ResponseEntity.ok(horariosDisponiveis);
   }
 
   @PostMapping("/cadastrar")
