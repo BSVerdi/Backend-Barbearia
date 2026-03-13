@@ -50,4 +50,8 @@ public class Cliente {
       this.telefone = dto.telefone();
     }
   }
+
+  public void ativar() {
+    this.ativo = true;
+  }
 }

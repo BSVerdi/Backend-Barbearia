@@ -9,7 +9,6 @@ import br.com.alvorada.barbearia.repository.ClienteRepository;
 import br.com.alvorada.barbearia.security.service.TokenService;
 import jakarta.transaction.Transactional;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -57,11 +56,14 @@ public class ClienteService {
   }
 
   @Transactional
-  public void deletarCliente(Long id) {
+  public void deletarCliente(Long id, Usuario logado) {
+    if (!(logado.ehDono(id) || logado.ehAdmin()))
+      throw new AccessDeniedException("Usuário não tem permissão");
+
     var cliente = repository.findById(id).orElseThrow();
 
     if (!cliente.getAtivo()) {
-      throw new RegraDeNegocioException("Cliente inativo");
+      throw new RegraDeNegocioException("O cliente já está inativo.");
     }
 
     cliente.desativar();
@@ -69,17 +71,10 @@ public class ClienteService {
   }
 
   @Transactional
-  public DetalhamentoClienteDto atualizarDados(AtualizacaoDadosClienteDto dto) {
-    var logado = (Usuario) SecurityContextHolder
-            .getContext()
-            .getAuthentication()
-            .getPrincipal();
-
-    if (logado == null) {
-      throw new RegraDeNegocioException("Usuário não logado");
-    }
-
-    if (!logado.getId().equals(dto.id())) {
+  public DetalhamentoClienteDto atualizarDados(
+          AtualizacaoDadosClienteDto dto, Usuario logado
+  ) {
+    if (!logado.ehDono(dto.id())) {
       throw new AccessDeniedException("Você não tem permissão para atualizar este usuario");
     }
 
@@ -87,6 +82,31 @@ public class ClienteService {
     cliente.atualizarDados(dto);
 
     usuarioService.atualizarDados(dto.id(), dto.nome());
+
+    return new DetalhamentoClienteDto(cliente);
+  }
+
+  @Transactional
+  public DetalhamentoClienteDto detalharCliente(Long id, Usuario logado) {
+    if (!(logado.ehDono(id) || logado.ehAdmin())) {
+      throw new AccessDeniedException("Usuário não possui permissão");
+    }
+
+    var cliente = repository.findById(id).orElseThrow();
+
+    return new DetalhamentoClienteDto(cliente);
+  }
+
+  @Transactional
+  public DetalhamentoClienteDto reativarCliente(Long id) {
+    var cliente = repository.findById(id).orElseThrow();
+
+    if (cliente.getAtivo()) {
+      throw new RegraDeNegocioException("O Cliente já está ativo.");
+    }
+
+    cliente.ativar();
+    usuarioService.reativarUsuario(id);
 
     return new DetalhamentoClienteDto(cliente);
   }

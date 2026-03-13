@@ -69,4 +69,16 @@ public class Usuario implements UserDetails {
       this.nome = nome;
     }
   }
+
+  public boolean ehDono(Long id) {
+    return this.id == id;
+  }
+
+  public boolean ehAdmin() {
+    return this.perfil == Perfil.ADMIN;
+  }
+
+  public void ativar() {
+    this.ativo = true;
+  }
 }

@@ -79,4 +79,10 @@ public class UsuarioService implements UserDetailsService {
     usuario.atualizarNome(nome);
   }
 
+  @Transactional
+  public void reativarUsuario(Long id) {
+    var usuario = repository.findById(id).orElseThrow();
+
+    usuario.ativar();
+  }
 }

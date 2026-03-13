@@ -33,9 +33,12 @@ public class ConfiguracoesSeguranca {
             .authorizeHttpRequests(req -> {
                       req.requestMatchers("/login/**", "/clientes/cadastrar", "/atualizar-token").permitAll();
 
+                      req.requestMatchers(HttpMethod.GET, "/barbeiros", "/barbeiros/ativo").permitAll();
+
+                      req.requestMatchers("/barbeiros/**").hasRole("ADMIN");
                       req.requestMatchers(HttpMethod.GET, "/usuarios/**", "/clientes").hasRole("ADMIN");
-                      req.requestMatchers(HttpMethod.PATCH, "/usuarios/perfil/**").hasRole("ADMIN");
-                      req.requestMatchers(HttpMethod.DELETE, "/clientes/{id}").hasRole("ADMIN");
+                      req.requestMatchers(HttpMethod.PATCH, "/usuarios/perfil/**", "/clientes/{id}/reativar").hasRole("ADMIN");
+
 
                       req.anyRequest().authenticated();
                     }

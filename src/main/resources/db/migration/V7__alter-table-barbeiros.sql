@@ -1,0 +1,1 @@
+ALTER TABLE barbeiros DROP COLUMN senha;

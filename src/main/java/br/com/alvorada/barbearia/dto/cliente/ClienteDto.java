@@ -5,12 +5,12 @@ import br.com.alvorada.barbearia.model.Cliente;
 public record ClienteDto(
         Long id,
         String nome,
-        String telefone,
+        Boolean ativo,
         Integer agendamentos
 ) {
 
   public ClienteDto(Cliente cliente) {
-    this(cliente.getId(), cliente.getNome(), cliente.getTelefone(), null);
+    this(cliente.getId(), cliente.getNome(), cliente.getAtivo(), null);
   }
 
 }

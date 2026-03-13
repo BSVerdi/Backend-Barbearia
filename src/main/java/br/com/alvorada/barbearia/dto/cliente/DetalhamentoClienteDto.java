@@ -6,7 +6,8 @@ public record DetalhamentoClienteDto(
         Long id,
         String nome,
         String email,
-        String telefone
+        String telefone,
+        Boolean ativo
 ) {
 
   public DetalhamentoClienteDto(Cliente cliente) {
@@ -14,7 +15,8 @@ public record DetalhamentoClienteDto(
             cliente.getId(),
             cliente.getNome(),
             cliente.getEmail(),
-            cliente.getTelefone()
+            cliente.getTelefone(),
+            cliente.getAtivo()
     );
   }
 
