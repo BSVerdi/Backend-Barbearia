@@ -85,4 +85,5 @@ public class UsuarioService implements UserDetailsService {
 
     usuario.ativar();
   }
+
 }

@@ -4,6 +4,7 @@ CREATE TABLE usuarios(
     nome VARCHAR(128) NOT NULL,
     email VARCHAR(128) NOT NULL UNIQUE,
     senha VARCHAR(128) NOT NULL,
+    perfil VARCHAR(64) NOT NULL,
     ativo BOOLEAN NOT NULL DEFAULT 1
 
 );

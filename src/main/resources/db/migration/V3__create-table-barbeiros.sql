@@ -1,10 +1,9 @@
 CREATE TABLE barbeiros(
 
-    id BIGINT NOT NULL,
+    id BIGINT NOT NULL PRIMARY KEY,
     nome VARCHAR(128) NOT NULL,
     email VARCHAR(128) NOT NULL UNIQUE,
-    senha VARCHAR(128) NOT NULL,
-    telefone VARCHAR(128) NOT NULL,
+    telefone VARCHAR(128) NOT NULL UNIQUE,
     horario_inicio TIME NOT NULL,
     horario_fim TIME NOT NULL,
     ativo BOOLEAN NOT NULL DEFAULT 1

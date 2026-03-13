@@ -28,7 +28,7 @@ public class ClienteService {
 
   @Transactional
   public DetalhamentoCadastroClienteDto cadastrar(CadastroClienteDto dto) {
-    var jaExiste = repository.existsByEmail(dto.email());
+    var jaExiste = repository.existsByEmailOrTelefone(dto.email(), dto.telefone());
 
     if (jaExiste) {
       throw new RegraDeNegocioException("Usuário já existe");

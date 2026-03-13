@@ -4,12 +4,14 @@ import br.com.alvorada.barbearia.dto.barbeiro.AtualizacaoDadosBarbeiroDto;
 import br.com.alvorada.barbearia.dto.barbeiro.CadastroBarbeiroDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Table(name = "barbeiros")
@@ -30,7 +32,8 @@ public class Barbeiro {
 
   private Boolean ativo;
 
-//  private List<Agendamento> agendamentos = new ArrayList<>();
+  @OneToMany(mappedBy = "barbeiro")
+  private List<Agendamento> agendamentos;
 
   public Barbeiro(Long id, CadastroBarbeiroDto dto) {
     this.id = id;

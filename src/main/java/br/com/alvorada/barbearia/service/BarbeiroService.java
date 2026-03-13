@@ -50,7 +50,7 @@ public class BarbeiroService {
 
   @Transactional
   public DetalhamentoBarbeiroDto cadastrar(CadastroBarbeiroDto dto) {
-    var jaExiste = repository.existsByEmail(dto.email());
+    var jaExiste = repository.existsByEmailOrTelefone(dto.email(), dto.telefone());
 
     if (jaExiste) {
       throw new RegraDeNegocioException("O email já está cadastrado");

@@ -4,10 +4,13 @@ import br.com.alvorada.barbearia.dto.cliente.AtualizacaoDadosClienteDto;
 import br.com.alvorada.barbearia.dto.cliente.CadastroClienteDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Table(name = "clientes")
@@ -24,8 +27,8 @@ public class Cliente {
   private String telefone;
   private Boolean ativo;
 
-//  @OneToMany
-//  private List<Agendamento> agentamentos = new ArrayList<>();
+  @OneToMany(mappedBy = "cliente")
+  private List<Agendamento> agentamentos;
 
   public Cliente(Long id, CadastroClienteDto dto) {
 
