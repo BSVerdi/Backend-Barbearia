@@ -134,4 +134,9 @@ public class BarbeiroService {
             .collect(Collectors.toList());
   }
 
+  public DetalhamentoBarbeiroDto reativarBarbeiro(Long id) {
+    var barbeiro = repository.findById(id).orElseThrow();
+
+    return new DetalhamentoBarbeiroDto(barbeiro);
+  }
 }

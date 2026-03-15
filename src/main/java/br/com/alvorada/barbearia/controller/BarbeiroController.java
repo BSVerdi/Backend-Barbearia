@@ -78,6 +78,13 @@ public class BarbeiroController {
     return ResponseEntity.ok(barbeiro);
   }
 
+  @PatchMapping("/{id}/reativar")
+  public ResponseEntity<DetalhamentoBarbeiroDto> reativar(@PathVariable Long id) {
+    var barbeiro = service.reativarBarbeiro(id);
+
+    return ResponseEntity.ok(barbeiro);
+  }
+
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deletarBarbeiro(
           @PathVariable Long id,
