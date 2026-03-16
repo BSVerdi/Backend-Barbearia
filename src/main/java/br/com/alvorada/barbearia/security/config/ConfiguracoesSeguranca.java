@@ -1,6 +1,7 @@
 package br.com.alvorada.barbearia.security.config;
 
 import br.com.alvorada.barbearia.security.filter.FiltroTokenAcesso;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -21,12 +22,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class ConfiguracoesSeguranca {
 
-  private final FiltroTokenAcesso filtroTokenAcesso;
-
-  public ConfiguracoesSeguranca(FiltroTokenAcesso filtroTokenAcesso) {
-    this.filtroTokenAcesso = filtroTokenAcesso;
-  }
-
+  @Autowired
+  private FiltroTokenAcesso filtroTokenAcesso;
+  
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) {
     return http

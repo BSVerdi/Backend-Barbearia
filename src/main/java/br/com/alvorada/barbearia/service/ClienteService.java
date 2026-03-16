@@ -8,6 +8,7 @@ import br.com.alvorada.barbearia.model.Usuario;
 import br.com.alvorada.barbearia.repository.ClienteRepository;
 import br.com.alvorada.barbearia.security.service.TokenService;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
@@ -16,15 +17,14 @@ import java.util.List;
 @Service
 public class ClienteService {
 
-  private final ClienteRepository repository;
-  private final UsuarioService usuarioService;
-  private final TokenService tokenService;
+  @Autowired
+  private ClienteRepository repository;
 
-  public ClienteService(ClienteRepository repository, UsuarioService usuarioService, TokenService tokenService) {
-    this.repository = repository;
-    this.usuarioService = usuarioService;
-    this.tokenService = tokenService;
-  }
+  @Autowired
+  private UsuarioService usuarioService;
+
+  @Autowired
+  private TokenService tokenService;
 
   @Transactional
   public DetalhamentoCadastroClienteDto cadastrar(CadastroClienteDto dto) {

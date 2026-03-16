@@ -5,6 +5,7 @@ import br.com.alvorada.barbearia.model.Usuario;
 import br.com.alvorada.barbearia.security.service.TokenService;
 import br.com.alvorada.barbearia.service.ClienteService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -16,13 +17,11 @@ import java.util.List;
 @RequestMapping("/clientes")
 public class ClienteController {
 
-  private final ClienteService service;
-  private final TokenService tokenService;
+  @Autowired
+  private ClienteService service;
 
-  public ClienteController(ClienteService service, TokenService tokenService) {
-    this.service = service;
-    this.tokenService = tokenService;
-  }
+  @Autowired
+  private TokenService tokenService;
 
   @PostMapping("/cadastrar")
   public ResponseEntity<DetalhamentoCadastroClienteDto> cadastrar(

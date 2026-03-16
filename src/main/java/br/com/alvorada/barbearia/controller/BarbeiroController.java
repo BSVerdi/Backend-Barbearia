@@ -4,6 +4,7 @@ import br.com.alvorada.barbearia.dto.barbeiro.*;
 import br.com.alvorada.barbearia.model.Usuario;
 import br.com.alvorada.barbearia.service.BarbeiroService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +16,8 @@ import java.util.List;
 @RequestMapping("/barbeiros")
 public class BarbeiroController {
 
-  private final BarbeiroService service;
-
-  public BarbeiroController(BarbeiroService service) {
-    this.service = service;
-  }
+  @Autowired
+  private BarbeiroService service;
 
   @GetMapping
   public ResponseEntity<List<BarbeiroDto>> listarBarbeiros() {

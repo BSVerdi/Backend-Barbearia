@@ -6,6 +6,7 @@ import br.com.alvorada.barbearia.model.Perfil;
 import br.com.alvorada.barbearia.model.Usuario;
 import br.com.alvorada.barbearia.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,13 +18,11 @@ import java.util.List;
 @Service
 public class UsuarioService implements UserDetailsService {
 
-  private final UsuarioRepository repository;
-  private final PasswordEncoder passwordEncoder;
+  @Autowired
+  private UsuarioRepository repository;
 
-  public UsuarioService(UsuarioRepository repository, PasswordEncoder passwordEncoder) {
-    this.repository = repository;
-    this.passwordEncoder = passwordEncoder;
-  }
+  @Autowired
+  private PasswordEncoder passwordEncoder;
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

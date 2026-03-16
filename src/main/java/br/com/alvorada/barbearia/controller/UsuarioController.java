@@ -5,6 +5,7 @@ import br.com.alvorada.barbearia.dto.usuario.DetalhamentoUsuarioDto;
 import br.com.alvorada.barbearia.security.service.TokenService;
 import br.com.alvorada.barbearia.service.UsuarioService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,13 +15,11 @@ import java.util.List;
 @RequestMapping("/usuarios")
 public class UsuarioController {
 
-  private final UsuarioService service;
-  private final TokenService tokenService;
+  @Autowired
+  private UsuarioService service;
 
-  public UsuarioController(UsuarioService service, TokenService tokenService) {
-    this.service = service;
-    this.tokenService = tokenService;
-  }
+  @Autowired
+  private TokenService tokenService;
 
   @GetMapping
   public ResponseEntity<List<DetalhamentoUsuarioDto>> listarUsuarios() {

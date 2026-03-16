@@ -4,6 +4,7 @@ import br.com.alvorada.barbearia.dto.agendamento.AgendarDto;
 import br.com.alvorada.barbearia.exception.RegraDeNegocioException;
 import br.com.alvorada.barbearia.repository.AgendamentoRepository;
 import br.com.alvorada.barbearia.repository.BarbeiroRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -11,16 +12,11 @@ import java.time.LocalDateTime;
 @Component
 public class ValidacaoClienteComAgendamentoNoDia implements ValidacaoAgendamento {
 
-  private final AgendamentoRepository agendamentoRepository;
-  private final BarbeiroRepository barbeiroRepository;
+  @Autowired
+  private AgendamentoRepository agendamentoRepository;
 
-  public ValidacaoClienteComAgendamentoNoDia(
-          AgendamentoRepository agendamentoRepository,
-          BarbeiroRepository barbeiroRepository
-  ) {
-    this.agendamentoRepository = agendamentoRepository;
-    this.barbeiroRepository = barbeiroRepository;
-  }
+  @Autowired
+  private BarbeiroRepository barbeiroRepository;
 
   @Override
   public void validar(AgendarDto dto) {

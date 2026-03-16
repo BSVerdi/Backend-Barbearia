@@ -7,6 +7,7 @@ import br.com.alvorada.barbearia.model.Usuario;
 import br.com.alvorada.barbearia.repository.UsuarioRepository;
 import br.com.alvorada.barbearia.security.service.TokenService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,19 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AutenticacaoController {
 
-  private final AuthenticationManager authenticationManager;
-  private final TokenService tokenService;
-  private final UsuarioRepository usuarioRepository;
+  @Autowired
+  private AuthenticationManager authenticationManager;
 
-  public AutenticacaoController(
-          AuthenticationManager authenticationManager,
-          TokenService tokenService,
-          UsuarioRepository usuarioRepository
-  ) {
-    this.authenticationManager = authenticationManager;
-    this.tokenService = tokenService;
-    this.usuarioRepository = usuarioRepository;
-  }
+  @Autowired
+  private TokenService tokenService;
+
+  @Autowired
+  private UsuarioRepository usuarioRepository;
 
   @PostMapping("/login")
   public ResponseEntity<TokenDto> efetuarLogin(@Valid @RequestBody LoginDto dto) {

@@ -11,6 +11,7 @@ import br.com.alvorada.barbearia.repository.BarbeiroRepository;
 import br.com.alvorada.barbearia.repository.ClienteRepository;
 import br.com.alvorada.barbearia.validations.ValidacaoAgendamento;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
@@ -19,22 +20,17 @@ import java.util.List;
 @Service
 public class AgendamentoService {
 
-  private final AgendamentoRepository repository;
-  private final BarbeiroRepository barbeiroRepository;
-  private final ClienteRepository clienteRepository;
-  private final List<ValidacaoAgendamento> validacoes;
+  @Autowired
+  private AgendamentoRepository repository;
 
-  public AgendamentoService(
-          AgendamentoRepository repository,
-          BarbeiroRepository barbeiroRepository,
-          ClienteRepository clienteRepository,
-          List<ValidacaoAgendamento> validacoes
-  ) {
-    this.repository = repository;
-    this.barbeiroRepository = barbeiroRepository;
-    this.clienteRepository = clienteRepository;
-    this.validacoes = validacoes;
-  }
+  @Autowired
+  private BarbeiroRepository barbeiroRepository;
+
+  @Autowired
+  private ClienteRepository clienteRepository;
+
+  @Autowired
+  private List<ValidacaoAgendamento> validacoes;
 
   @Transactional
   public DetalhamentoAgendamentoDto agendar(AgendarDto dto, Usuario logado) {

@@ -9,6 +9,7 @@ import br.com.alvorada.barbearia.model.Usuario;
 import br.com.alvorada.barbearia.repository.AgendamentoRepository;
 import br.com.alvorada.barbearia.repository.BarbeiroRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
@@ -20,19 +21,14 @@ import java.util.stream.Collectors;
 @Service
 public class BarbeiroService {
 
-  private final BarbeiroRepository repository;
-  private final UsuarioService usuarioService;
-  private final AgendamentoRepository agendamentoRepository;
+  @Autowired
+  private BarbeiroRepository repository;
 
-  public BarbeiroService(
-          BarbeiroRepository repository,
-          UsuarioService usuarioService,
-          AgendamentoRepository agendamentoRepository
-  ) {
-    this.repository = repository;
-    this.usuarioService = usuarioService;
-    this.agendamentoRepository = agendamentoRepository;
-  }
+  @Autowired
+  private UsuarioService usuarioService;
+
+  @Autowired
+  private AgendamentoRepository agendamentoRepository;
 
   @Transactional
   public List<BarbeiroDto> listarBarbeiros() {
