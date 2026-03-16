@@ -1,4 +1,4 @@
-FROM openjdk:21-rc
+FROM eclipse-temurin:21-jre
 RUN mkdir /app
 WORKDIR /app
 COPY target/*.jar /app/app.jar
