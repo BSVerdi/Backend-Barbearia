@@ -80,8 +80,7 @@ class UsuarioServiceTest {
 
       var usuarios = List.of(usuario1, usuario2, usuario3);
 
-      given(usuarioRepository.findAll())
-              .willReturn(usuarios);
+      given(usuarioRepository.findAll()).willReturn(usuarios);
 
       var usuariosEsperados = usuarios.stream()
               .map(DetalhamentoUsuarioDto::new)

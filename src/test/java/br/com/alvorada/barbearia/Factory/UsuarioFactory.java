@@ -15,4 +15,15 @@ public class UsuarioFactory {
             Perfil.CLIENTE
     );
   }
+
+  public static Usuario criarUsuarioAdminComTodosOsCampos() {
+    return new Usuario(
+            1L,
+            "exemplo",
+            "exemplo@email.com",
+            "exemploSenha",
+            true,
+            Perfil.ADMIN
+    );
+  }
 }
