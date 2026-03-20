@@ -312,10 +312,11 @@ class ClienteServiceTest {
       @DisplayName("Dado um usuario que não é o cliente")
       public void teste10() {
         var usuario = criarUsuarioComTodosOsCampos();
+        var dto = new AtualizacaoDadosClienteDto(usuario.getId() + 1L, "novoNome", "10987654321");
 
         Assertions.assertThrows(
                 AccessDeniedException.class,
-                () -> clienteService.atualizarDados(any(), usuario)
+                () -> clienteService.atualizarDados(dto, usuario)
         );
       }
 
@@ -325,7 +326,7 @@ class ClienteServiceTest {
         var dto = new AtualizacaoDadosClienteDto(1L, "novoNome", "10987654321");
         var usuario = criarUsuarioComTodosOsCampos();
 
-        given(clienteRepository.findById(any())).willReturn(Optional.empty());
+        given(clienteRepository.findById(1L)).willReturn(Optional.empty());
 
         Assertions.assertThrows(
                 NoSuchElementException.class,
