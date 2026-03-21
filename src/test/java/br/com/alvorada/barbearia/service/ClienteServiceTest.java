@@ -102,7 +102,7 @@ class ClienteServiceTest {
 
       @Test
       @DisplayName("Dado um cliente com todos os campos e email ou telefone presentes no banco")
-      public void teste01() {
+      public void teste02() {
         var dto = new CadastroClienteDto(
                 "exemplo",
                 "exemplo@email.com",
@@ -129,7 +129,7 @@ class ClienteServiceTest {
 
     @Test
     @DisplayName("Deveria retornar todos os clientes")
-    public void teste01() {
+    public void teste03() {
       var cliente1 = criarClienteComTodosOsCampos();
       var cliente2 = criarClienteComTodosOsCampos();
       var cliente3 = criarClienteComTodosOsCampos();
@@ -159,7 +159,7 @@ class ClienteServiceTest {
 
       @Test
       @DisplayName("O usuario logado é o cliente mas não é admin")
-      public void teste02() {
+      public void teste04() {
         var cliente = criarClienteComTodosOsCampos();
         var usuario = criarUsuarioComTodosOsCampos();
 
@@ -173,7 +173,7 @@ class ClienteServiceTest {
 
       @Test
       @DisplayName("O usuario logado não é o cliente mas é admin")
-      public void teste03() {
+      public void teste05() {
         var cliente = criarClienteComTodosOsCampos();
         var usuario = criarUsuarioAdminComTodosOsCampos();
 
@@ -187,17 +187,16 @@ class ClienteServiceTest {
       }
 
       @Test
-      @DisplayName("O usuario logado é o cliente e tambem é admin")
-      public void teste04() {
+      @DisplayName("O cliente é desativado")
+      public void teste06() {
         var cliente = criarClienteComTodosOsCampos();
         var usuario = criarUsuarioAdminComTodosOsCampos();
 
         given(clienteRepository.findById(cliente.getId()))
                 .willReturn(Optional.of(cliente));
 
-        Assertions.assertDoesNotThrow(
-                () -> clienteService.deletarCliente(cliente.getId(), usuario)
-        );
+        clienteService.deletarCliente(cliente.getId(), usuario);
+
         Assertions.assertFalse(cliente.getAtivo());
       }
 
@@ -209,7 +208,7 @@ class ClienteServiceTest {
 
       @Test
       @DisplayName("Dado um usuario logado não for o dono ou admin")
-      public void teste05() {
+      public void teste07() {
         var cliente = criarClienteComTodosOsCampos();
         var usuario = criarUsuarioComTodosOsCampos();
 
@@ -221,7 +220,7 @@ class ClienteServiceTest {
 
       @Test
       @DisplayName("Dado um cliente já estivar desativado")
-      public void teste06() {
+      public void teste08() {
         var cliente = criarClienteComTodosOsCampos();
         var usuario = criarUsuarioComTodosOsCampos();
 
@@ -238,7 +237,7 @@ class ClienteServiceTest {
 
       @Test
       @DisplayName("Dado um cliente não existir no banco de dados")
-      public void teste07() {
+      public void teste09() {
         var cliente = criarClienteComTodosOsCampos();
         var usuario = criarUsuarioComTodosOsCampos();
 
@@ -265,7 +264,7 @@ class ClienteServiceTest {
 
       @Test
       @DisplayName("Dado que retorne o cliente atualizado detalhado")
-      public void teste08() {
+      public void teste10() {
         var cliente = criarClienteComTodosOsCampos();
         var usuario = criarUsuarioComTodosOsCampos();
         var dto = new AtualizacaoDadosClienteDto(1L, "novoNome", "10987654321");
@@ -287,7 +286,7 @@ class ClienteServiceTest {
 
       @Test
       @DisplayName("Dado que atualize os dados do cliente")
-      public void teste09() {
+      public void teste11() {
         var cliente = criarClienteComTodosOsCampos();
         var usuario = criarUsuarioComTodosOsCampos();
         var dto = new AtualizacaoDadosClienteDto(1L, "novoNome", "10987654321");
@@ -310,7 +309,7 @@ class ClienteServiceTest {
 
       @Test
       @DisplayName("Dado um usuario que não é o cliente")
-      public void teste10() {
+      public void teste12() {
         var usuario = criarUsuarioComTodosOsCampos();
         var dto = new AtualizacaoDadosClienteDto(usuario.getId() + 1L, "novoNome", "10987654321");
 
@@ -322,7 +321,7 @@ class ClienteServiceTest {
 
       @Test
       @DisplayName("Dado um cliente que não existe no banco de dados")
-      public void teste11() {
+      public void teste13() {
         var dto = new AtualizacaoDadosClienteDto(1L, "novoNome", "10987654321");
         var usuario = criarUsuarioComTodosOsCampos();
 
@@ -331,6 +330,168 @@ class ClienteServiceTest {
         Assertions.assertThrows(
                 NoSuchElementException.class,
                 () -> clienteService.atualizarDados(dto, usuario)
+        );
+      }
+
+    }
+
+  }
+
+  @Nested
+  @DisplayName("Quando detalhar um cliente")
+  class DetalharCliente {
+
+    @Nested
+    @DisplayName("Deveria detalhar com sucesso")
+    class Sucesso {
+
+      @Test
+      @DisplayName("Dado um usuario que é admin")
+      public void teste14() {
+        var cliente = criarClienteComTodosOsCampos();
+        var usuario = criarUsuarioAdminComTodosOsCampos();
+
+        given(clienteRepository.findById(cliente.getId()))
+                .willReturn(Optional.of(cliente));
+
+        Assertions.assertDoesNotThrow(
+                () -> clienteService.detalharCliente(cliente.getId(), usuario)
+        );
+      }
+
+      @Test
+      @DisplayName("Dado um usuario que é o próprio cliente")
+      public void teste15() {
+        var cliente = criarClienteComTodosOsCampos();
+        var usuario = criarUsuarioComTodosOsCampos();
+
+        given(clienteRepository.findById(cliente.getId()))
+                .willReturn(Optional.of(cliente));
+
+        Assertions.assertDoesNotThrow(
+                () -> clienteService.detalharCliente(cliente.getId(), usuario)
+        );
+      }
+
+      @Test
+      @DisplayName("Dado que retorne o cliente detalhado com todos os dados")
+      public void teste16() {
+        var cliente = criarClienteComTodosOsCampos();
+        var usuario = criarUsuarioComTodosOsCampos();
+
+        given(clienteRepository.findById(cliente.getId()))
+                .willReturn(Optional.of(cliente));
+
+        var clienteRetornardo = clienteService
+                .detalharCliente(cliente.getId(), usuario);
+
+        Assertions.assertEquals(
+                clienteRetornardo,
+                new DetalhamentoClienteDto(cliente)
+        );
+      }
+
+    }
+
+    @Nested
+    @DisplayName("Deveria retornar erro")
+    class Falha {
+
+      @Test
+      @DisplayName("Dado um usuario que não é admin e nem o cliente")
+      public void teste17() {
+        var usuario = criarUsuarioComTodosOsCampos();
+
+        Assertions.assertThrows(
+                AccessDeniedException.class,
+                () -> clienteService.detalharCliente(usuario.getId() + 1L, usuario)
+        );
+      }
+
+      @Test
+      @DisplayName("Dado um cliente que não está no banco de dados")
+      public void teste18() {
+        var usuario = criarUsuarioComTodosOsCampos();
+
+        given(clienteRepository.findById(1L)).willReturn(Optional.empty());
+
+        Assertions.assertThrows(
+                NoSuchElementException.class,
+                () -> clienteService.detalharCliente(1L, usuario)
+        );
+      }
+
+    }
+
+  }
+
+  @Nested
+  @DisplayName("Quando reativar um cliente")
+  class ReativarCliente {
+
+    @Nested
+    @DisplayName("Devera reativar com sucesso")
+    class Sucesso {
+
+      @Test
+      @DisplayName("Dado que o cliente seja reativado")
+      public void teste19() {
+        var cliente = criarClienteComTodosOsCampos();
+        cliente.desativar();
+
+        given(clienteRepository.findById(cliente.getId()))
+                .willReturn(Optional.of(cliente));
+
+        clienteService.reativarCliente(cliente.getId());
+
+        Assertions.assertTrue(cliente.getAtivo());
+      }
+
+      @Test
+      @DisplayName("Dado que retornou o detalhamento do cliente com todos os dados")
+      public void teste20() {
+        var cliente = criarClienteComTodosOsCampos();
+        cliente.desativar();
+
+        given(clienteRepository.findById(cliente.getId()))
+                .willReturn(Optional.of(cliente));
+
+        var clienteRetornardo = clienteService.reativarCliente(cliente.getId());
+
+        Assertions.assertEquals(
+                clienteRetornardo,
+                new DetalhamentoClienteDto(cliente)
+        );
+      }
+
+    }
+
+    @Nested
+    @DisplayName("Devera retornar Erro")
+    class Falha {
+
+      @Test
+      @DisplayName("Dado que o cliente não exites no banco de dados")
+      public void teste21() {
+        given(clienteRepository.findById(1L)).willReturn(Optional.empty());
+
+        Assertions.assertThrows(
+                NoSuchElementException.class,
+                () -> clienteService.reativarCliente(1L)
+        );
+      }
+
+      @Test
+      @DisplayName("Dado que o cliente ja esta ativo")
+      public void teste22() {
+        var cliente = criarClienteComTodosOsCampos();
+
+        given(clienteRepository.findById(cliente.getId()))
+                .willReturn(Optional.of(cliente));
+
+        Assertions.assertThrows(
+                RegraDeNegocioException.class,
+                () -> clienteService.reativarCliente(cliente.getId())
         );
       }
 
