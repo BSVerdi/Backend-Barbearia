@@ -166,7 +166,9 @@ class ClienteServiceTest {
         given(clienteRepository.findById(cliente.getId()))
                 .willReturn(Optional.of(cliente));
 
-        clienteService.deletarCliente(usuario.getId(), usuario);
+        Assertions.assertDoesNotThrow(
+                () -> clienteService.deletarCliente(usuario.getId(), usuario)
+        );
 
         Assertions.assertFalse(cliente.getAtivo());
       }
