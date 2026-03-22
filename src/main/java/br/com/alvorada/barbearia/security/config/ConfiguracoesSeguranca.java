@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
-import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,7 +22,7 @@ public class ConfiguracoesSeguranca {
 
   @Autowired
   private FiltroTokenAcesso filtroTokenAcesso;
-  
+
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) {
     return http
@@ -32,6 +30,11 @@ public class ConfiguracoesSeguranca {
                       req.requestMatchers("/login/**", "/clientes/cadastrar", "/atualizar-token").permitAll();
                       req.requestMatchers(HttpMethod.GET, "/barbeiros", "/barbeiros/ativo").permitAll();
                       req.requestMatchers("/v3/api-docs/**", "/swagger-ui/index.html", "/swagger-ui/**").permitAll();
+
+                      req.requestMatchers(HttpMethod.GET, "/clientes/{id}").hasAnyRole("CLIENTE", "ADMIN");
+                      req.requestMatchers(HttpMethod.DELETE, "/clientes/{id}").hasAnyRole("CLIENTE", "ADMIN");
+
+                      req.requestMatchers(HttpMethod.PATCH, "/clientes/atualizar-dados").hasRole("CLIENTE");
 
                       req.requestMatchers("/barbeiros/**").hasRole("ADMIN");
                       req.requestMatchers(HttpMethod.GET, "/usuarios/**", "/clientes", "/agendamentos").hasRole("ADMIN");
@@ -61,11 +64,4 @@ public class ConfiguracoesSeguranca {
     return authenticationConfiguration.getAuthenticationManager();
   }
 
-  @Bean
-  public RoleHierarchy roleHierarchy() {
-    String hierarquia = "ROLE_ADMIN > ROLE_COLABORADOR\n" +
-            "ROLE_COLABORADOR > ROLE_CLIENTE";
-
-    return RoleHierarchyImpl.fromHierarchy(hierarquia);
-  }
 }
