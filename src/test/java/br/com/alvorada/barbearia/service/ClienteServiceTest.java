@@ -8,10 +8,7 @@ import br.com.alvorada.barbearia.exception.RegraDeNegocioException;
 import br.com.alvorada.barbearia.model.Cliente;
 import br.com.alvorada.barbearia.repository.ClienteRepository;
 import br.com.alvorada.barbearia.security.service.TokenService;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -334,7 +331,7 @@ class ClienteServiceTest {
                 () -> clienteService.atualizarDados(dto, usuario)
         );
       }
-
+      
     }
 
   }

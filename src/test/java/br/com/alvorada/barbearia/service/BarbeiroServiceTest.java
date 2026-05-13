@@ -84,7 +84,7 @@ class BarbeiroServiceTest {
       given(barbeiroRepository.findByAtivoTrue()).willReturn(barbeiros);
 
       var barbeirosEsperados = barbeiros.stream().map(BarbeiroDto::new).toList();
-      var barbeirosRetornados = barbeiroService.listarBarbeiros();
+      var barbeirosRetornados = barbeiroService.listarBarbeirosAtivos();
 
       Assertions.assertEquals(barbeirosEsperados, barbeirosRetornados);
     }
